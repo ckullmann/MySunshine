@@ -1,0 +1,18 @@
+[
+    {
+        "merged": "/Users/christiankullmann/dev_workdir/code/android/MySunshine/app/build/intermediates/res/merged/debug/menu/menu_settings.xml",
+        "source": "/Users/christiankullmann/dev_workdir/code/android/MySunshine/app/src/main/res/menu/menu_settings.xml"
+    },
+    {
+        "merged": "/Users/christiankullmann/dev_workdir/code/android/MySunshine/app/build/intermediates/res/merged/debug/menu/forecast_fragment.xml",
+        "source": "/Users/christiankullmann/dev_workdir/code/android/MySunshine/app/src/main/res/menu/forecast_fragment.xml"
+    },
+    {
+        "merged": "/Users/christiankullmann/dev_workdir/code/android/MySunshine/app/build/intermediates/res/merged/debug/menu/main.xml",
+        "source": "/Users/christiankullmann/dev_workdir/code/android/MySunshine/app/src/main/res/menu/main.xml"
+    },
+    {
+        "merged": "/Users/christiankullmann/dev_workdir/code/android/MySunshine/app/build/intermediates/res/merged/debug/menu/detail.xml",
+        "source": "/Users/christiankullmann/dev_workdir/code/android/MySunshine/app/src/main/res/menu/detail.xml"
+    }
+]

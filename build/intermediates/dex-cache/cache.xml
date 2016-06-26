@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?>
+<items version="2" >
+
+    <item
+        jar="/Users/christiankullmann/Library/Android/sdk/extras/android/m2repository/com/android/support/support-annotations/22.2.1/support-annotations-22.2.1.jar"
+        jumboMode="true"
+        revision="24.0.0"
+        sha1="61a0ff5c29295ec56d7e0bd3d25d95dbf71b4b2b">
+        <dex dex="/Users/christiankullmann/dev_workdir/code/android/MySunshine/app/build/intermediates/transforms/dex/debug/folders/1000/10/support-annotations-22.2.1_e003755c4366b2eeaf283fd694ff54b01470a030/classes.dex" />
+    </item>
+    <item
+        jar="/Users/christiankullmann/dev_workdir/code/android/MySunshine/app/build/intermediates/incremental-runtime-classes/debug/instant-run.jar"
+        jumboMode="true"
+        revision="24.0.0"
+        sha1="2925d4417b83314a4ff8c0376477a8433a92f9bc">
+        <dex dex="/Users/christiankullmann/dev_workdir/code/android/MySunshine/app/build/intermediates/transforms/dex/debug/folders/1000/10/instant-run_e9fa1215663469fa55d53fad7b94870af7ddcf34/classes.dex" />
+    </item>
+    <item
+        jar="/Users/christiankullmann/dev_workdir/code/android/MySunshine/app/build/intermediates/exploded-aar/com.android.support/support-v4/22.2.1/jars/classes.jar"
+        jumboMode="true"
+        revision="24.0.0"
+        sha1="f8efd0096475e0daf054267b61544e10dc776503">
+        <dex dex="/Users/christiankullmann/dev_workdir/code/android/MySunshine/app/build/intermediates/transforms/dex/debug/folders/1000/10/com.android.support-support-v4-22.2.1_dfdf312ecc219058445c2c98f0bd3e5c0e197f08/classes.dex" />
+    </item>
+    <item
+        jar="/Users/christiankullmann/dev_workdir/code/android/MySunshine/app/build/intermediates/incremental-classes/debug/instant-run-bootstrap.jar"
+        jumboMode="true"
+        revision="24.0.0"
+        sha1="d1132b25125d802ffb89ba9c52f8d3178d33371a">
+        <dex dex="/Users/christiankullmann/dev_workdir/code/android/MySunshine/app/build/intermediates/transforms/dex/debug/folders/1000/10/instant-run-bootstrap_423837117525b9764f8b0efc18ec752000445b9d/classes.dex" />
+    </item>
+    <item
+        jar="/Users/christiankullmann/dev_workdir/code/android/MySunshine/app/build/intermediates/exploded-aar/com.android.support/support-v4/22.2.1/jars/libs/internal_impl-22.2.1.jar"
+        jumboMode="true"
+        revision="24.0.0"
+        sha1="c471eaaba13ff64f6e0383d1c30a9cdc9a97efeb">
+        <dex dex="/Users/christiankullmann/dev_workdir/code/android/MySunshine/app/build/intermediates/transforms/dex/debug/folders/1000/10/internal_impl-22.2.1_32f0220cc125dd08633f157542e389d39cadd21e/classes.dex" />
+    </item>
+    <item
+        jar="/Users/christiankullmann/dev_workdir/code/android/MySunshine/app/build/intermediates/exploded-aar/com.android.support/design/22.2.1/jars/classes.jar"
+        jumboMode="true"
+        revision="24.0.0"
+        sha1="1821601ddbec5ff125653097812823388700af74">
+        <dex dex="/Users/christiankullmann/dev_workdir/code/android/MySunshine/app/build/intermediates/transforms/dex/debug/folders/1000/10/com.android.support-design-22.2.1_44fff5d5754bb050b9730f92b6ed2977c2ab7925/classes.dex" />
+    </item>
+    <item
+        jar="/Users/christiankullmann/dev_workdir/code/android/MySunshine/app/build/intermediates/exploded-aar/com.android.support/appcompat-v7/22.2.1/jars/classes.jar"
+        jumboMode="true"
+        revision="24.0.0"
+        sha1="4486e953d1f35f8ccab098b1dd67146366d5f731">
+        <dex dex="/Users/christiankullmann/dev_workdir/code/android/MySunshine/app/build/intermediates/transforms/dex/debug/folders/1000/10/com.android.support-appcompat-v7-22.2.1_1198a0511828ca75fd9136c989a0857cc8f9401c/classes.dex" />
+    </item>
+
+</items>
