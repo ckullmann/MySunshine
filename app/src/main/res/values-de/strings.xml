@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Wetter</string>
+    <string name="action_settings">Einstellungen</string>
+
+    <!-- Preferences Location-->
+    <string name="pref_location_zip_title">Postleitzahl</string>
+    <string name="pref_location_zip_default">50733</string>
+
+    <string name="pref_location_country_title">Land</string>
+    <string name="pref_location_country_default">DE</string>
+
+    <!-- Preferences Units -->
+    <string name="pref_units_title">Einheiten</string>
+    <string-array name="pref_units_entries">
+        <item>Grad Celsius</item>
+        <item>Fahrenheit</item>
+        <item>Kelvin</item>
+    </string-array>
+    <string name="pref_units_default">metric</string>
+</resources>

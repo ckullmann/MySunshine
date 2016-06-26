@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+    <ListPreference
+        android:dependency="pref_units"
+        android:key="pref_units"
+        android:title="@string/pref_units_title"
+        android:dialogTitle="@string/pref_units_title"
+        android:entries="@array/pref_units_entries"
+        android:entryValues="@array/pref_units_entryValues"
+        android:defaultValue="@string/pref_units_default" />
+
+    <EditTextPreference android:dependency="pref_location_zip"
+        android:key="pref_location_zip"
+        android:title="@string/pref_location_zip_title"
+        android:dialogTitle="@string/pref_location_zip_title"
+        android:defaultValue="@string/pref_location_zip_default"/>
+
+    <EditTextPreference android:dependency="pref_location_country"
+        android:key="pref_location_country"
+        android:title="@string/pref_location_country_title"
+        android:dialogTitle="@string/pref_location_country_title"
+        android:defaultValue="@string/pref_location_country_default"/>
+</PreferenceScreen>
