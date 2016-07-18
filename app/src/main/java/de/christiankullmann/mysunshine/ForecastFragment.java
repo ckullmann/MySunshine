@@ -1,9 +1,11 @@
 package de.christiankullmann.mysunshine;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.text.format.Time;
@@ -38,20 +40,11 @@ import java.util.concurrent.ExecutionException;
  */
 public class ForecastFragment extends Fragment {
 
-    private static final String WEATHERMAP_APPID = "716c19c41c8c58a2d4ad192a6496b1c1";
     private static final String LOG_TAG = ForecastFragment.class.getSimpleName();
-    private String[] forecasts;
+    private String[] forecasts = {};
     private ArrayAdapter<String> forecastAdapter;
 
     public ForecastFragment() {
-        forecasts = new String[]{
-                "Today - Sunny - 88/63",
-                "Tomorrow - Foggy - 70/46",
-                "Weds - Cloudy - 72/63",
-                "Thurs - Rainy - 64/51",
-                "Fri - HELP ME - 70/46",
-                "Sat - Sunny - 76/68"
-        };
     }
 
     @Override
@@ -71,28 +64,37 @@ public class ForecastFragment extends Fragment {
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();
 
-        Log.v(LOG_TAG, "Item in OptionsMenu clicked has id : '"+id+"'.");
         if (id == R.id.action_refresh) {
-            FetchWeatherTask fetchWeatherTask = new FetchWeatherTask();
-            try {
-                forecasts = fetchWeatherTask.execute("42489", "DE").get();
-
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            } catch (ExecutionException e) {
-                e.printStackTrace();
-            }
-            return true;
+            return updateWeather();
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    private boolean updateWeather() {
+        FetchWeatherTask fetchWeatherTask = new FetchWeatherTask();
+        SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(getActivity());
+        String locationZip = sharedPreferences.getString(getString(R.string.pref_location_zip_key), getString(R.string.pref_location_zip_default));
+        String locationCountry = sharedPreferences.getString(getString(R.string.pref_location_country_key), getString(R.string.pref_location_country_default));
+        try {
+            forecasts = fetchWeatherTask.execute(locationZip, locationCountry).get();
+
+        } catch (InterruptedException | ExecutionException e) {
+            e.printStackTrace();
+        }
+        return true;
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+        updateWeather();
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, final ViewGroup container,
                              Bundle savedInstanceState) {
 
-        ArrayList<String> weekForecasts = new ArrayList<>(Arrays.asList(forecasts));
-        forecastAdapter = new ArrayAdapter<String>(getActivity(), R.layout.list_item_forecast, R.id.list_item_forecast_textview, weekForecasts);
+        forecastAdapter = new ArrayAdapter<>(getActivity(), R.layout.list_item_forecast, R.id.list_item_forecast_textview, new ArrayList<String>());
 
         View rootView = inflater.inflate(R.layout.fragment_main, container, false);
         ListView forecast = (ListView) rootView.findViewById(R.id.listview_forecast);
@@ -134,13 +136,15 @@ public class ForecastFragment extends Fragment {
                 // Construct the URL for the OpenWeatherMap query
                 // Possible parameters are avaiable at OWM's forecast API page, at
                 // http://openweathermap.org/API#forecast
-                String query;
-                if (params.length == 2) {
-                    String zip = params[0];
-                    String countryCode = params[1];
-                    query = zip + "," + countryCode;
+                String locationQuery;
+                String zip;
+                String countryCode;
+                if (params.length == 3) {
+                    zip = params[0];
+                    countryCode = params[1];
+                    locationQuery = zip + "," + countryCode;
                 } else {
-                    query = "50733,DE";
+                    locationQuery = "50733,DE";
                 }
                 Uri.Builder builder = new Uri.Builder();
                 builder.scheme("http");
@@ -149,11 +153,11 @@ public class ForecastFragment extends Fragment {
                 builder.appendPath("2.5");
                 builder.appendPath("forecast");
                 builder.appendPath("daily");
-                builder.appendQueryParameter(QUERY_PARAM_Q, query);
+                builder.appendQueryParameter(QUERY_PARAM_Q, locationQuery);
                 builder.appendQueryParameter(QUERY_PARAM_MODE, "json");
                 builder.appendQueryParameter(QUERY_PARAM_UNITS, "metric");
                 builder.appendQueryParameter(QUERY_PARAM_COUNT, "7");
-                builder.appendQueryParameter(QUERY_PARAM_APPID, WEATHERMAP_APPID);
+                builder.appendQueryParameter(QUERY_PARAM_APPID, APPID.WEATHERMAP_APPID);
                 String spec = builder.toString();
                 URL url = new URL(spec);
 
@@ -164,7 +168,7 @@ public class ForecastFragment extends Fragment {
 
                 // Read the input stream into a String
                 InputStream inputStream = urlConnection.getInputStream();
-                StringBuffer buffer = new StringBuffer();
+                StringBuilder buffer = new StringBuilder();
                 if (inputStream == null) {
                     // Nothing to do.
                     return null;
@@ -176,7 +180,7 @@ public class ForecastFragment extends Fragment {
                     // Since it's JSON, adding a newline isn't necessary (it won't affect parsing)
                     // But it does make debugging a *lot* easier if you print out the completed
                     // buffer for debugging.
-                    buffer.append(line + "\n");
+                    buffer.append(line).append("\n");
                 }
 
                 if (buffer.length() == 0) {
@@ -211,7 +215,7 @@ public class ForecastFragment extends Fragment {
         @Override
         protected void onPostExecute(String[] result) {
             super.onPostExecute(result);
-            if(result != null) {
+            if (result != null) {
                 forecastAdapter.clear();
                 forecastAdapter.addAll(new ArrayList<>(Arrays.asList(result)));
             }
@@ -230,19 +234,26 @@ public class ForecastFragment extends Fragment {
         /**
          * Prepare the weather high/lows for presentation.
          */
-        private String formatHighLows(double high, double low) {
+        private String formatHighLows(double high, double low, String unitType) {
+
+            if (unitType.equals(getString(R.string.pref_units_imperial))) {
+                high = (high * 1.8) + 32;
+                low = (low * 1.8) + 32;
+            } else if (!unitType.equals(getString(R.string.pref_units_metric))) {
+                Log.d(LOG_TAG, "Unit type not found: [" + unitType + "].");
+            }
+
             // For presentation, assume the user doesn't care about tenths of a degree.
             long roundedHigh = Math.round(high);
             long roundedLow = Math.round(low);
 
-            String highLowStr = roundedHigh + "/" + roundedLow;
-            return highLowStr;
+            return roundedHigh + "/" + roundedLow;
         }
 
         /**
          * Take the String representing the complete forecast in JSON Format and
          * pull out the data we need to construct the Strings needed for the wireframes.
-         * <p/>
+         * <p>
          * Fortunately parsing is easy:  constructor takes the JSON string and converts it
          * into an Object hierarchy for us.
          */
@@ -304,8 +315,8 @@ public class ForecastFragment extends Fragment {
                 JSONObject temperatureObject = dayForecast.getJSONObject(OWM_TEMPERATURE);
                 double high = temperatureObject.getDouble(OWM_MAX);
                 double low = temperatureObject.getDouble(OWM_MIN);
-
-                highAndLow = formatHighLows(high, low);
+                SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(getActivity());
+                highAndLow = formatHighLows(high, low, sharedPreferences.getString(getString(R.string.pref_units_key), getString(R.string.pref_units_metric)));
                 resultStrs[i] = day + " - " + description + " - " + highAndLow;
             }
 
